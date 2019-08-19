@@ -51,6 +51,7 @@ int main()
 void SigintHandler(int sig)
 {
     pthread_cancel(tid);
+    pthread_join(tid, NULL);
     if(msgctl(id[0], IPC_RMID, 0) == -1)
     {
         perror("msgctl");
@@ -61,7 +62,7 @@ void SigintHandler(int sig)
         perror("msgctl");
         exit(-1);
     }
-    printf("Server out\n");
+    printf("\nServer out\n");
     exit(0);
 }
 

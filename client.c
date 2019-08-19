@@ -66,6 +66,8 @@ int main()
             cycle = 0;
             pthread_cancel(tid[0]);
             pthread_cancel(tid[1]);
+            pthread_join(tid[0], NULL);
+            pthread_join(tid[1], NULL);
             for(i = 0; i < rows - 4; i++)
                 free(chat[i]);
             free(chat);
@@ -82,10 +84,14 @@ int main()
                 perror("msgsnd");
                 exit(-1);
             }
-            delwin(listwnd);
-            delwin(chatboxwnd);
-            delwin(chatwnd);
-            delwin(wnd);
+            if(listwnd != NULL)
+                delwin(listwnd);
+            if(chatboxwnd != NULL)
+                delwin(chatboxwnd);
+            if(chatwnd != NULL)
+                delwin(chatwnd);
+            if(wnd != NULL)
+                delwin(wnd);
             endwin();
         }
     }
@@ -111,12 +117,12 @@ void print()
         mvwprintw(chatwnd, i, 0, "%s", chat[i]);
     pthread_mutex_unlock(&lock_chat);
     mvwprintw(wnd, rows - 2, 2, "%s", "Enter text: ");
+    move(rows - 2, 14);
     refresh();
     wrefresh(wnd);
     wrefresh(listwnd);
     wrefresh(chatboxwnd);
     wrefresh(chatwnd);
-    move(rows - 2, 14);
     pthread_mutex_unlock(&lock_print);
 }
 

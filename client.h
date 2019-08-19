@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <curses.h>
-#include <signal.h>
 
 struct msg_buf
 {
